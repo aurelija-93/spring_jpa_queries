@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "customers")
@@ -17,7 +18,7 @@ public class Customer {
 
     @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY)
     @JsonIgnoreProperties({"customer"})
-    private ArrayList<Booking> bookings;
+    private List<Booking> bookings;
 
     public Customer(String name, String location, int age) {
         this.name = name;
@@ -45,7 +46,7 @@ public class Customer {
         return age;
     }
 
-    public ArrayList<Booking> getBookings() {
+    public List<Booking> getBookings() {
         return bookings;
     }
 
@@ -61,7 +62,7 @@ public class Customer {
         this.age = age;
     }
 
-    public void setBookings(ArrayList<Booking> bookings) {
+    public void setBookings(List<Booking> bookings) {
         this.bookings = bookings;
     }
 }
