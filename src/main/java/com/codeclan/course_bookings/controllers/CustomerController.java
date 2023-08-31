@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -18,8 +19,16 @@ public class CustomerController {
     CustomerRepository customerRepository;
 
     @GetMapping("/customers")
-    ResponseEntity<List<Customer>> index() {
-        return new ResponseEntity<>(customerRepository.findAll(), HttpStatus.OK);
+    ResponseEntity<List<Customer>> index(
+            @RequestParam(required = false, name = "courseId") Long courseId
+    ) {
+        List<Customer> customers;
+        if (courseId != null) {
+            customers = customerRepository.findByBookingsCourseId(courseId);
+        } else {
+            customers = customerRepository.findAll();
+        }
+        return new ResponseEntity<>(customers, HttpStatus.OK);
     }
 
     @GetMapping("/customers/{id}")

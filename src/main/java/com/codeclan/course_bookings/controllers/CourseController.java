@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -18,8 +19,16 @@ public class CourseController {
     CourseRepository courseRepository;
 
     @GetMapping("/courses")
-    ResponseEntity<List<Course>> index() {
-        return new ResponseEntity<>(courseRepository.findAll(), HttpStatus.OK);
+    ResponseEntity<List<Course>> index(
+            @RequestParam(required = false, name = "rating") Integer rating
+    ) {
+        List<Course> courses;
+        if (rating != null) {
+            courses = courseRepository.findByRating(rating);
+        } else {
+            courses = courseRepository.findAll();
+        }
+        return new ResponseEntity<>(courses, HttpStatus.OK);
     }
 
     @GetMapping("/courses/{id}")
