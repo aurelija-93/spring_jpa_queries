@@ -14,7 +14,7 @@ public class Course {
     private Long id;
     private String name;
     private String location;
-    private Rating rating;
+    private int rating;
 
     @OneToMany(mappedBy = "course", fetch = FetchType.LAZY)
     @JsonIgnoreProperties({"course"})
@@ -23,7 +23,7 @@ public class Course {
     public Course(String name, String location, Rating rating) {
         this.name = name;
         this.location = location;
-        this.rating = rating;
+        this.rating = rating.getValue();
         this.bookings = new ArrayList<>();
     }
 
@@ -42,7 +42,7 @@ public class Course {
         return location;
     }
 
-    public Rating getRating() {
+    public int getRating() {
         return rating;
     }
 
@@ -59,7 +59,7 @@ public class Course {
     }
 
     public void setRating(Rating rating) {
-        this.rating = rating;
+        this.rating = rating.getValue();
     }
 
     public void setBookings(List<Booking> bookings) {
