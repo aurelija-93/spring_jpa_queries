@@ -1,13 +1,12 @@
 package com.codeclan.course_bookings.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.*;
 
 import java.util.ArrayList;
 
 @Entity
+@Table(name = "courses")
 public class Course {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,6 +14,9 @@ public class Course {
     private String name;
     private String location;
     private Rating rating;
+
+    @OneToMany(mappedBy = "course", fetch = FetchType.LAZY)
+    @JsonIgnoreProperties({"course"})
     private ArrayList<Booking> bookings;
 
     public Course(String name, String location, Rating rating) {
