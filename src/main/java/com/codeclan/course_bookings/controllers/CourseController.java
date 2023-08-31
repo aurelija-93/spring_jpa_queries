@@ -20,11 +20,14 @@ public class CourseController {
 
     @GetMapping("/courses")
     ResponseEntity<List<Course>> index(
-            @RequestParam(required = false, name = "rating") Integer rating
+            @RequestParam(required = false, name = "rating") Integer rating,
+            @RequestParam(required = false, name = "customerId") Long customerId
     ) {
         List<Course> courses;
         if (rating != null) {
             courses = courseRepository.findByRating(rating);
+        } else if (customerId != null) {
+            courses = courseRepository.findByBookingsCustomerId(customerId);
         } else {
             courses = courseRepository.findAll();
         }
