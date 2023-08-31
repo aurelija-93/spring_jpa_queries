@@ -21,10 +21,13 @@ public class CustomerController {
     @GetMapping("/customers")
     ResponseEntity<List<Customer>> index(
             @RequestParam(required = false, name = "courseId") Long courseId,
-            @RequestParam(required = false, name = "location") String location
+            @RequestParam(required = false, name = "location") String location,
+            @RequestParam(required = false, name = "minAge") Integer minAge
     ) {
         List<Customer> customers;
-        if (courseId != null && location != null) {
+        if (courseId != null && location != null && minAge != null) {
+            customers = customerRepository.findByAgeGreaterThanAndLocationIgnoreCaseAndBookingsCourseId(minAge, location, courseId);
+        } else if (courseId != null && location != null) {
             customers = customerRepository.findByLocationIgnoreCaseAndBookingsCourseId(location, courseId);
         } else if (courseId != null) {
             customers = customerRepository.findByBookingsCourseId(courseId);
